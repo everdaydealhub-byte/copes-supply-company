@@ -19,13 +19,14 @@ body {
   background: var(--dark);
   color: var(--text);
   font-family: Arial, sans-serif;
-}
+
+
 header {
-  background: #080d14;
-  border-bottom: 2px solid var(--blue);
-  padding: 24px 15px;
-  text-align: center;
+  display: none;
 }
+
+ 
+
 .logo {
   color: white;
   font-size: clamp(24px, 4vw, 38px);
@@ -51,7 +52,7 @@ nav a:hover { color: #59b5ff; }
 
 .hero {
   text-align: center;
-  padding: 100px 20px;
+  padding: 45px 20px 75px;
   background:
     linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.7)),
     url("ChatGPT Image 5 Nov 2026, 19_20_53.png");
@@ -59,6 +60,17 @@ nav a:hover { color: #59b5ff; }
   background-position: center;
   background-repeat: no-repeat;
 }
+
+.hero-logo {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  margin: 0 auto 15px;
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,0.45));
+}
+
+
 
  
  
@@ -189,7 +201,18 @@ src="Chrome Cope’s Supply Company Gear Badge.png"
   <a href="#about">About Us</a>
 </nav>
 
+
 <div class="hero" id="home">
+
+<img
+  class="hero-logo"
+  src="Chrome Cope’s Supply Company Gear Badge.png"
+  alt="Cope's Supply Company Logo"
+>
+<p style="color:#d9e6f7; margin:0 0 25px;">
+  Quality Products. Honest Prices.
+</p>
+
   <h1>Built for Work.<br>
     <span>Ready for Everyday Life.</span>
   </h1>
