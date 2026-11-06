@@ -1,0 +1,19 @@
+
+{
+  "name": "Cope's Supply Company",
+  "short_name": "Cope's Supply",
+  "description": "Tools, concrete equipment supplies, automotive accessories, and everyday essentials.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0c1119",
+  "theme_color": "#1689eb",
+  "icons": [
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
