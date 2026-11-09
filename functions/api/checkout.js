@@ -2,6 +2,8 @@ import {products} from "../../catalog.js";
 const json=(body,status=200)=>Response.json(body,{status,headers:{"Cache-Control":"no-store"}});
 export async function onRequestPost({request,env}){
  if(request.headers.get("Origin")!==new URL(request.url).origin)return json({error:"Invalid origin."},403);
+ // Fail closed even when Stripe credentials have already been configured.
+ if(env.CHECKOUT_ENABLED!=="true")return json({error:"Online payments are disabled until launch. Please request a quote."},503);
  // This implementation deliberately has no live-payment path.
  if(env.CHECKOUT_MODE!=="test"||!env.STRIPE_SECRET_KEY?.startsWith("sk_test_"))return json({error:"Test checkout is not configured. Please request a quote."},503);
  try{
