@@ -26,7 +26,7 @@ function renderCart(){
  const remove=el("button","Remove","button");remove.type="button";remove.setAttribute("aria-label","Remove "+p.name);remove.onclick=()=>{delete cart[p.id];save();};row.append(remove);list.append(row);
  }
  $("#cart-count").textContent=count;$("#cart-total").textContent=count?(unknown?"Pricing will be confirmed in your quote.":"Product subtotal: "+money(total)+"; shipping and tax calculated at checkout."):"Your cart is empty.";
- $("#checkout").disabled=!count;
+ $("#checkout").disabled=true;
 }
 $("#search").addEventListener("input",renderProducts);
 $("#cart-quote").onclick=()=>{document.querySelector('[name=items]').value=products.filter(p=>cart[p.id]).map(p=>p.name+" — quantity "+cart[p.id]).join("\n");};
