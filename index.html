@@ -26,6 +26,7 @@ body {
   background: var(--dark);
   color: var(--text);
   font-family: Arial, sans-serif;
+}
 
 
 header {
@@ -185,6 +186,8 @@ footer {
   color: #aebfd2;
 }
 </style>
+<link rel="stylesheet" href="store.css">
+<script type="module" src="store.js"></script>
 </head>
 <body>
 
@@ -207,11 +210,14 @@ src="Chrome Cope’s Supply Company Gear Badge.png"
   <p>Quality Products. Honest Prices.</p>
 </header>
 
-<nav>
+<nav aria-label="Main navigation">
   <a href="#home">Home</a>
   <a href="#categories">Shop</a>
   <a href="#featured">Featured Products</a>
   <a href="#about">About Us</a>
+  <a href="#contact">Contact Us</a>
+  <a href="#quote">Request a Quote</a>
+  <a href="#cart">Cart (<span id="cart-count">0</span>)</a>
 </nav>
 
 
@@ -287,41 +293,13 @@ src="Chrome Cope’s Supply Company Gear Badge.png"
 </section>
 
 <section id="featured">
-  <h2>Featured Products</h2>
-  <p class="subtitle">
-    Our product collection is coming together!
-  </p>
-
-  <div class="grid">
-    <div class="product">
-      <div class="product-image">🍳</div>
-      <div class="product-info">
-        <h3>Air Fryer Silicone Liners</h3>
-        <p>Reusable kitchen accessories.</p>
-        <p class="coming">Coming Soon</p>
-      </div>
-    </div>
-
-    <div class="product">
-      <div class="product-image">🔧</div>
-      <div class="product-info">
-        <h3>Magnetic Socket Organizers</h3>
-        <p>Keep your sockets organized.</p>
-        <p class="coming">Coming Soon</p>
-      </div>
-    </div>
-
-    <div class="product">
-      <div class="product-image">⚙️</div>
-      <div class="product-info">
-        <h3>Concrete Trowel Blades</h3>
-        <p>Concrete finishing accessories.</p>
-        <p class="coming">Coming Soon</p>
-      </div>
-    </div>
-  </div>
+<h2>Shop Products</h2><p class="subtitle">Explore our upcoming range. Prices and availability are being confirmed. Online payments are not enabled.</p>
+<label for="search">Search products</label><input id="search" type="search" placeholder="Search tools, concrete supplies, and home essentials">
+<div id="products" class="grid"></div><noscript>Please enable JavaScript to browse the catalog and prepare an inquiry.</noscript>
 </section>
-
+<section id="cart"><h2>Your Cart</h2><p class="subtitle">Prepare a product inquiry. Adding items does not reserve stock or place an order.</p><div id="cart-items"></div>
+<p id="cart-total" role="status"></p><button id="checkout" class="button" type="button">Try secure test checkout</button>
+<a class="button" href="#quote" id="cart-quote">Request a quote for these items</a><p id="checkout-status" role="status"></p></section>
 <section id="about">
   <h2>About Cope's Supply Company</h2>
   <div class="about">
@@ -340,6 +318,28 @@ src="Chrome Cope’s Supply Company Gear Badge.png"
   </div>
 </section>
 
+<section id="contact"><h2>Contact Us</h2><p class="subtitle">Questions about a product or an order? Send us a message.</p><form data-kind="contact">
+<label>Your name<input name="name" autocomplete="name" required maxlength="120"></label>
+
+<label>Email<input type="email" name="email" autocomplete="email" required maxlength="254"></label>
+<label>Phone (optional)<input type="tel" name="phone" autocomplete="tel" maxlength="40"></label>
+
+<label>How can we help?<textarea name="message" required maxlength="4000"></textarea></label>
+<div class="trap" aria-hidden="true"><label>Leave blank<input name="website" tabindex="-1" autocomplete="off"></label></div>
+<label><input name="consent" type="checkbox" required> I agree to be contacted about this inquiry.</label>
+<p>Use this form for inquiries only. Do not include payment card numbers or sensitive information.</p>
+<button class="button" type="submit">Send message</button><p role="status"></p></form></section>
+<section id="quote"><h2>Request a Quote</h2><p class="subtitle">Bulk contractor orders, equipment supplies, and project quantities. We will confirm pricing, availability, and delivery before any order.</p><form data-kind="quote">
+<label>Your name<input name="name" autocomplete="name" required maxlength="120"></label>
+<label>Company<input name="company" autocomplete="organization" required maxlength="160"></label>
+<label>Email<input type="email" name="email" autocomplete="email" required maxlength="254"></label>
+<label>Phone (optional)<input type="tel" name="phone" autocomplete="tel" maxlength="40"></label>
+<label>Products, quantities, sizes, and specifications<textarea name="items" required maxlength="4000"></textarea></label><label>Delivery ZIP code<input name="zip" autocomplete="postal-code" required pattern="[0-9]{5}(-[0-9]{4})?" title="Enter a US ZIP code"></label><label>Preferred delivery date (optional)<input type="date" name="date"></label>
+<label>Project details (optional)<textarea name="message"  maxlength="4000"></textarea></label>
+<div class="trap" aria-hidden="true"><label>Leave blank<input name="website" tabindex="-1" autocomplete="off"></label></div>
+<label><input name="consent" type="checkbox" required> I agree to be contacted about this inquiry.</label>
+<p>Use this form for inquiries only. Do not include payment card numbers or sensitive information.</p>
+<button class="button" type="submit">Send quote request</button><p role="status"></p></form></section>
 <footer>
   <strong>COPE'S SUPPLY COMPANY</strong>
   <p>Quality Products. Honest Prices.</p>
