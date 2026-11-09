@@ -21,3 +21,8 @@ Before live commerce: confirm actual catalog/photos/SKUs, stock, shipping region
 
 ## Review and verification
 Run npm test. Review desktop and mobile visuals using original repository assets on a Cloudflare preview. No DNS, production hosting, Shopify or main-branch changes are needed to review this draft.
+
+## Prelaunch payment lock
+CHECKOUT_ENABLED defaults to disabled when missing. Keep CHECKOUT_ENABLED=false in all environments until the owner explicitly approves testing or launch. The visible checkout button is disabled in HTML and JavaScript, and the server refuses direct requests while locked, even with valid Stripe keys. Publishing the site does not unlock payments.
+For a private sandbox test only, set CHECKOUT_ENABLED=true in an isolated preview environment, CHECKOUT_MODE=test and a dedicated sk_test_ secret. The current public button remains disabled; test the API from the same preview origin. Live keys remain rejected regardless of the lock. Restore CHECKOUT_ENABLED=false after testing.
+A Stripe account has not been created or linked. The owner must create a separate Cope's Supply Stripe account, complete Stripe's business verification themselves, and configure sandbox secrets in hosting. Never paste secret keys into chat. Real-money launch still requires the order/webhook, shipping/tax and policy work described above, explicit owner approval, and a separate code change supporting live mode.
