@@ -1,0 +1,14 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import {onRequestPost as checkout} from "../functions/api/checkout.js";
+import {onRequestPost as inquiry} from "../functions/api/inquiry.js";
+const req=(path,body,origin="https://example.com")=>new Request("https://example.com/api/"+path,{method:"POST",headers:{Origin:origin,"Content-Type":"application/json"},body:JSON.stringify(body)});
+test("live Stripe secrets cannot activate checkout",async()=>{const r=await checkout({request:req("checkout",{items:[]}),env:{CHECKOUT_ENABLED:"true",CHECKOUT_MODE:"test",STRIPE_SECRET_KEY:"sk_live_fake"}});assert.equal(r.status,503);});
+test("cross-origin checkout rejected",async()=>{assert.equal((await checkout({request:req("checkout",{},"https://other.com"),env:{}})).status,403);});
+test("unconfirmed products cannot be purchased",async()=>{const r=await checkout({request:req("checkout",{items:[{id:"trowel-blades",quantity:1}]}),env:{CHECKOUT_ENABLED:"true",CHECKOUT_MODE:"test",STRIPE_SECRET_KEY:"sk_test_fake"}});assert.equal(r.status,400);});
+test("unconfigured inquiry service never reports success",async()=>{assert.equal((await inquiry({request:req("inquiry",{}),env:{}})).status,503);});
+test("invalid inquiry does not write to database",async()=>{assert.equal((await inquiry({request:req("inquiry",{kind:"contact"}),env:{INQUIRIES:{prepare(){throw Error("Unexpected write");}}}})).status,400);});
+test("valid quote is persisted before success",async()=>{let inserts=0;const db={prepare(sql){return {bind(...values){return {async run(){inserts++;return {meta:{changes:1}};}}}}}};const request=req("inquiry",{kind:"quote",name:"Contractor",email:"test@example.com",company:"Example",items:"20 blades",zip:"60601",consent:"on"});request.headers.set("CF-Connecting-IP","192.0.2.1");const r=await inquiry({request,env:{INQUIRIES:db}});assert.equal(r.status,200);assert.equal(inserts,2);});
+test("database failure never reports inquiry received",async()=>{const request=req("inquiry",{kind:"contact",name:"Test",email:"test@example.com",message:"Hello",consent:"on"});request.headers.set("CF-Connecting-IP","192.0.2.1");assert.equal((await inquiry({request,env:{INQUIRIES:{prepare(){throw Error("offline");}}}})).status,500);});
+
+test("checkout stays locked with configured test credentials",async()=>{for(const enabled of [undefined,"false","TRUE"]){const r=await checkout({request:req("checkout",{items:[{id:"trowel-blades",quantity:1}]}),env:{CHECKOUT_ENABLED:enabled,CHECKOUT_MODE:"test",STRIPE_SECRET_KEY:"sk_test_fake"}});assert.equal(r.status,503);assert.match((await r.json()).error,/disabled until launch/);}});
